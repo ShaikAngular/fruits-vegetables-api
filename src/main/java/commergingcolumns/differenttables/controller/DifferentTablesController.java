@@ -2,6 +2,7 @@ package commergingcolumns.differenttables.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,9 @@ public class DifferentTablesController {
 	@GetMapping("/fruits-vegetables")
 	public  List<FruitsAndVegetablesEntity> getAll() {
 		final List<FruitsAndVegetablesEntity> res =new ArrayList<>();
-		res.add((FruitsAndVegetablesEntity) vegService.getVegetablesList());
-		res.add((FruitsAndVegetablesEntity) frService.getFruitsList());
+//		res.add((FruitsAndVegetablesEntity) vegService.getVegetablesList());
+//		res.add((FruitsAndVegetablesEntity) frService.getFruitsList());
+		res.add((FruitsAndVegetablesEntity) fvService.getFruitsAndVegetablesList());
 		
 		// return fvService.getFruitsAndVegetablesList();
 		return res;
@@ -58,6 +60,12 @@ public class DifferentTablesController {
 		List<VegetablesEntity> fv = vegService.getVegetablesList();
 		ltr.add(fv);
 		return  ltr;
+	}
+	
+	@GetMapping("/fv")
+	public List getFVList() {
+		List FVList = Stream.concat(frService.getFruitsList().stream(), vegService.getVegetablesList().stream()).collect(Collectors.toList());
+		return FVList;
 	}
 
 }
